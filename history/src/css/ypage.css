@@ -1,0 +1,13 @@
+body{
+	overflow: hidden;
+}
+.ypage-container{
+	position:relative;
+	width:100%;
+	overflow: hidden;
+	width:9999px;
+}
+.ypage{
+	float:left;
+	width:320px;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>页内页</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="/src/scripts/jquery.min.js"></script>
+    <script src="/src/scripts/zepto.min.js"></script>
+    <style>
+    body {
+        overflow: hidden;
+    }
+    
+    .ypage-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        width: 9999px;
+    }
+    
+    .ypage {
+        float: left;
+        width: 320px;
+    }
+    
+    .space {
+        margin-top: 50px;
+    }
+    
+    .direc {
+        background-color: #A6E22E;
+        color: #fff;
+        padding: 10px;
+        width: 20%;
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body>
+    <header>
+        <center>
+            <h3>简单演示页内页</h3></center>
+    </header>
+    <div class="ypage-container">
+        <div class="ypage page-one page-active">
+            <h4 class="space">这里是第一个页面</h4>
+            <p class="space">山长水阔 青山路远</p>
+            <div class="space direc">前往</div>
+        </div>
+        <div class="ypage page-two page-active">
+            <h4>这里是第二个页面</h4>
+            <p class="space">远山的樵夫遇见了渡河的行者 丢了满捆的柴火</p>
+        </div>
+    </div>
+    <script>
+    $(function() {
+        var state;
+        display_1();
+        window.onpopstate = function(event) {
+            if (event.state) {
+                event.state = state;
+                display();
+            } else {
+                history.replaceState(state, '页内页', '');
+                display();
+            }
+        };
+
+        function display_1() {
+            var str = window.location.hash;
+            switch (str) {
+                case '':
+                    $('.ypage-container').css('left', 0 + 'px');
+                    document.title = '页内页';
+                    break;
+                case '#pageTwo':
+                    $('.ypage-container').css('left', -320 + 'px');
+                    document.title = '页外页';
+                    break;
+            }
+        }
+
+        function display() {
+            var str = window.location.hash;
+            switch (str) {
+                case '':
+                    $('.ypage-container').animate({
+                        left: '+=' + 320 + 'px'
+                    }, 300);
+                    document.title = '页内页';
+                    break;
+                case '#pageTwo':
+                    $('.ypage-container').animate({
+                        left: '-=' + 320 + 'px'
+                    }, 300);
+                    document.title = '页外页';
+                    break;
+            }
+        };
+        state = {
+            title: '页外页',
+            url: '#pageTwo'
+        };
+        $('.ypage-container').on('click', '.direc', function(e) {
+            document.title = '页外页';
+            history.pushState(state, state.title, state.url);
+            $('.ypage-container').animate({
+                left: '-=' + 320 + 'px'
+            }, 300);
+        })
+    })
+    </script>
+</body>
+
+</html>
